@@ -1,11 +1,11 @@
-package com.somnal.app.fintech
+package com.somnal.app.withpark
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SpringbootFintechApplication
+class WithparkApplication
 
 fun main(args: Array<String>) {
-    runApplication<SpringbootFintechApplication>(*args)
+    runApplication<WithparkApplication>(*args)
 }

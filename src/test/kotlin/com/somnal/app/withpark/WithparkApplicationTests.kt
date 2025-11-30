@@ -1,10 +1,10 @@
-package com.somnal.app.fintech
+package com.somnal.app.withpark
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class SpringbootFintechApplicationTests {
+class WithparkApplicationTests {
 
     @Test
     fun contextLoads() {
