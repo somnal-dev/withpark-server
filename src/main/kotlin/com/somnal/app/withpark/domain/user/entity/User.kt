@@ -18,7 +18,6 @@ data class User(
     val id: Long = 0,
     val username: String,
     val email: String,
-    val password: String,
 
     val nickname: String,
     @Enumerated(EnumType.STRING)
@@ -26,5 +25,5 @@ data class User(
     val socialId: String? = null,
     val introduction: String? = null,
 
-    val isOnboardingDone: Boolean = false,
+    val onboardingDone: Boolean = false,
 ): BaseEntity()

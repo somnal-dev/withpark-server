@@ -1,4 +1,4 @@
-package com.somnal.app.withpark.constant
+package com.somnal.app.withpark.common
 
 class Const {
     companion object {
