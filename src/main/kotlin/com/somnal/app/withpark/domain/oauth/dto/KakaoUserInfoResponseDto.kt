@@ -26,7 +26,7 @@ data class KakaoUserInfoResponseDto(
 
     //카카오 계정 정보
     @JsonProperty("kakao_account")
-    val kakaoAccount: KakaoAccount? = null,
+    val kakaoAccount: KakaoAccount,
 
     @JsonProperty("for_partner")
     val partner: Partner? = null,
@@ -48,7 +48,7 @@ data class KakaoAccount(
 
     //사용자 프로필 정보
     @JsonProperty("profile")
-    val profile: Profile? = null,
+    val profile: Profile,
 
     //이름 제공 동의 여부
     @JsonProperty("name_needs_agreement")
@@ -74,7 +74,7 @@ data class KakaoAccount(
 
     //카카오계정 대표 이메일
     @JsonProperty("email")
-    val email: String? = null,
+    val email: String = "",
 
     //연령대 제공 동의 여부
     @JsonProperty("age_range_needs_agreement")
@@ -128,7 +128,7 @@ data class Profile(
 
     //닉네임
     @JsonProperty("nickname")
-    val nickName: String? = null,
+    val nickName: String = "",
 
     //프로필 미리보기 이미지 URL
     @JsonProperty("thumbnail_image_url")

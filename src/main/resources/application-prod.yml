@@ -24,3 +24,9 @@ server:
 kakao:
   REST_API_KEY: ${KAKAO_REST API KEY}
   REDIRECT_URI: ${KAKAO_REDIRECT_URI}
+  OAUTH_CALLBACK_URI: ${KAKAO_OAUTH_CALLBACK_URI}
+jwt:
+  access-secret: ${JWT_ACCESS_SECRET}
+  refresh-secret: ${JWT_REFRESH_SECRET}
+  access-token-expiration: 3600000
+  refresh-token-expiration: 604800000
