@@ -26,7 +26,7 @@ import java.net.URI
 class KakaoOauthController(
     val kakaoOauthService: KakaoOauthService
 ) {
-    private val log = LoggerFactory.getLogger(javaClass)
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     @Value("\${kakao.REST_API_KEY}")
     private val restApiKey: String? = null
@@ -40,8 +40,6 @@ class KakaoOauthController(
     @Operation(summary = "카카오 인가코드 요청 (소셜로그인 페이지 이동) API")
     @GetMapping("/authorize")
     fun authorizeKakao(model: Model): ResponseEntity<Void> {
-        log.info("카카오 인가코드 요청")
-
         val url = "${Const.KAKAO_AUTHORIZE_URL}?response_type=code&client_id=${restApiKey}&redirect_uri=${redirectUri}"
 
         return ResponseEntity
@@ -57,8 +55,6 @@ class KakaoOauthController(
     ): ResponseEntity<Void> {
         // 인가코드를 통한 액세스토큰 수신
         val accessToken = kakaoOauthService.getAccessToken(code)
-
-        log.info("액세스 토큰 : $accessToken")
 
         val url = "${oauthCallbackUri}?access_token=${accessToken}"
 

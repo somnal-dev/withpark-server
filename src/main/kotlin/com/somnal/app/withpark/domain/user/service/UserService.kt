@@ -1,7 +1,10 @@
 package com.somnal.app.withpark.domain.user.service
 
+import com.somnal.app.withpark.domain.user.dto.UpdateUserRequestDto
 import com.somnal.app.withpark.domain.user.dto.UserDto
 import com.somnal.app.withpark.domain.user.repository.UserRepository
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
@@ -14,5 +17,23 @@ class UserService(
             ?: throw UsernameNotFoundException("사용자를 찾을 수 없습니다: $username")
 
         return UserDto.fromEntity(user)
+    }
+
+    fun updateUser(
+        userId: Long,
+        request: UpdateUserRequestDto
+    ): UserDto {
+        val user = userRepository.findUserById(userId)
+            ?: throw UsernameNotFoundException("사용자를 찾을 수 없습니다: $userId")
+
+        user.apply {
+            onboardingDone = request.onboardingDone ?: user.onboardingDone
+            nickname = request.nickname ?: user.nickname
+            introduction = request.introduction ?: user.introduction
+        }
+
+        val updatedUser = userRepository.save(user)
+
+        return UserDto.fromEntity(updatedUser)
     }
 }

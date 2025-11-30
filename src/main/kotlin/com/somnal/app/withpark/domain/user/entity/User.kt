@@ -19,11 +19,11 @@ data class User(
     val username: String,
     val email: String,
 
-    val nickname: String,
+    var nickname: String,
     @Enumerated(EnumType.STRING)
     val socialType: SocialType,
     val socialId: String? = null,
-    val introduction: String? = null,
+    var introduction: String? = null,
 
-    val onboardingDone: Boolean = false,
+    var onboardingDone: Boolean = false,
 ): BaseEntity()
