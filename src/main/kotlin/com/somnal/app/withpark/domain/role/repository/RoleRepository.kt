@@ -1,6 +1,6 @@
-package com.somnal.app.fintech.domain.role.repository
+package com.somnal.app.withpark.domain.role.repository
 
-import com.somnal.app.fintech.domain.role.entity.Role
+import com.somnal.app.withpark.domain.role.entity.Role
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.Optional
 

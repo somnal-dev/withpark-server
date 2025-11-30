@@ -1,1 +1,1 @@
-rootProject.name = "springboot-fintech"
+rootProject.name = "withpark"

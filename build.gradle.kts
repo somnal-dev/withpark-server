@@ -8,7 +8,7 @@ plugins {
 
 group = "com.somnal.app"
 version = "0.0.1-SNAPSHOT"
-description = "springboot-fintech"
+description = "withpark-server"
 
 java {
     toolchain {
@@ -34,17 +34,12 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.jsonwebtoken:jjwt-api:0.13.0")
-    implementation("org.modelmapper:modelmapper:3.2.6")
-    implementation("software.amazon.awssdk:s3:2.39.5")
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
     runtimeOnly("org.postgresql:postgresql")
-    compileOnly("org.projectlombok:lombok")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.13.0")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
     testImplementation("org.springframework.boot:spring-boot-starter-security-test")
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")

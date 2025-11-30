@@ -1,4 +1,4 @@
-package com.somnal.app.fintech.domain.role.entity
+package com.somnal.app.withpark.domain.role.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -7,8 +7,6 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import jakarta.validation.constraints.NotBlank
-import lombok.Builder
-import lombok.Data
 
 @Entity
 @Table(name = "role")

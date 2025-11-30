@@ -1,4 +1,4 @@
-package com.somnal.app.fintech.domain.transaction.enumeration
+package com.somnal.app.withpark.domain.transaction.enumeration
 
 enum class TransactionStatus {
     SUCCESS,

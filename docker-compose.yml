@@ -1,31 +1,31 @@
 services:
-  fintech-server:
-    container_name: fintech-server
+  withpark-server:
+    container_name: withpark-server
     build: .
     ports:
       - "50001:8080"
     depends_on:
-      - fintech-postgres
+      - withpark-postgres
     networks:
-      - fintech-network
-  fintech-postgres:
+      - withpark-network
+  withpark-postgres:
     image: postgres:15.15
-    container_name: fintech-postgres
+    container_name: withpark-postgres
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: fintech
-      POSTGRES_USER: fintech
-      POSTGRES_PASSWORD: fintech123
+      POSTGRES_DB: withpark
+      POSTGRES_USER: withpark
+      POSTGRES_PASSWORD: withpark123
       TZ: Asia/Seoul
     volumes:
-      - fintech-database:/var/lib/postgresql/data
+      - withpark-database:/var/lib/postgresql/data
     networks:
-      - fintech-network
+      - withpark-network
 volumes:
-  fintech-database:
+  withpark-database:
 
 networks:
-  fintech-network:
+  withpark-network:
     driver:
       bridge
