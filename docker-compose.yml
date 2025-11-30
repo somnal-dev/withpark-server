@@ -1,0 +1,31 @@
+services:
+  fintech-server:
+    container_name: fintech-server
+    build: .
+    ports:
+      - "50001:8080"
+    depends_on:
+      - fintech-postgres
+    networks:
+      - fintech-network
+  fintech-postgres:
+    image: postgres:15.15
+    container_name: fintech-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: fintech
+      POSTGRES_USER: fintech
+      POSTGRES_PASSWORD: fintech123
+      TZ: Asia/Seoul
+    volumes:
+      - fintech-database:/var/lib/postgresql/data
+    networks:
+      - fintech-network
+volumes:
+  fintech-database:
+
+networks:
+  fintech-network:
+    driver:
+      bridge
