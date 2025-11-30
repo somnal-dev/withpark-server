@@ -11,9 +11,9 @@ spring:
         format_sql: true
     open-in-view: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/withpark
-    username: withpark
-    password: withpark123
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 logging:
   level:

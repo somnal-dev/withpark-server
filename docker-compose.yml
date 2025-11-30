@@ -3,7 +3,7 @@ services:
     container_name: withpark-server
     build: .
     ports:
-      - "50001:8080"
+      - "${SERVER_PORT}:8080"
     depends_on:
       - withpark-postgres
     networks:
@@ -12,12 +12,12 @@ services:
     image: postgres:15.15
     container_name: withpark-postgres
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
     environment:
-      POSTGRES_DB: withpark
-      POSTGRES_USER: withpark
-      POSTGRES_PASSWORD: withpark123
-      TZ: Asia/Seoul
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: ${TIMEZONE}
     volumes:
       - withpark-database:/var/lib/postgresql/data
     networks:
