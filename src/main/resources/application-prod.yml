@@ -3,21 +3,24 @@ spring:
     name: withpark
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     open-in-view: false
   datasource:
-    url: jdbc:postgresql://localhost:5432/withpark
-    username: withpark
-    password: withpark123
+    url: jdbc:postgresql://withpark-postgres:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 logging:
   level:
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    root: info
+    org.hibernate.SQL: info
+    org.hibernate.type.descriptor.sql.BasicBinder: info
 server:
-  port: 8080
+  port: ${PROD_SERVER_PORT:8080}
+kakao:
+  REST_API_KEY: ${KAKAO_REST API KEY}
+  REDIRECT_URI: ${KAKAO_REDIRECT_URI}
