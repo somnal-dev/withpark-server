@@ -19,6 +19,6 @@ EXPOSE 8080
 COPY --from=build /app/build/libs/*.jar app.jar
 
 # 환경을 운영으로 설정하고, 포트를 설정
-CMD java -Dserver.port=${PORT:-8080} \
+CMD java -Dserver.port=8080 \
         -Dspring.profiles.active=${SPRING_PROFILES_ACTIVE:-prod} \
         -jar app.jar
