@@ -11,10 +11,12 @@ services:
     depends_on:
       - withpark-postgres
     networks:
-      - withpark-network
+      - service-network
   withpark-postgres:
     image: postgres:15.15
     container_name: withpark-postgres
+    ports:
+    - "${POSTGRES_PORT}:5432"
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -23,11 +25,10 @@ services:
     volumes:
       - withpark-database:/var/lib/postgresql/data
     networks:
-      - withpark-network
+      - service-network
 volumes:
   withpark-database:
 
 networks:
-  withpark-network:
-    driver:
-      bridge
+  service-network:
+    external: true
