@@ -20,7 +20,6 @@ import javax.imageio.ImageIO
 class UploadService(
     private val uploadFileRepository: UploadFileRepository,
     @Value("\${upload.path:uploads}") private val uploadPath: String,
-    @Value("\${upload.url:http://localhost:8080/uploads}") private val uploadUrl: String,
 ) {
     fun uploadFiles(files: List<MultipartFile>): List<UploadResponseDto> {
         // 업로드 디렉토리 생성
@@ -60,7 +59,7 @@ class UploadService(
 
         val uploadFile = UploadFile(
             name = originalFilename,
-            url = "$uploadUrl/$fileName",
+            url = "/uploads/$fileName",
             size = file.size,
             width = width,
             height = height,
