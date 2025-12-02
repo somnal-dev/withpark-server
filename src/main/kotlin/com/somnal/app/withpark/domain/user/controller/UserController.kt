@@ -71,4 +71,20 @@ class UserController(
             ),
         )
     }
+
+    @Operation(summary = "회원 탈퇴 API")
+    @DeleteMapping("/{userId}")
+    fun deleteUser(
+        @Parameter(description = "사용자 ID", example = "1")
+        @PathVariable userId: Long,
+    ): ResponseEntity<ApiResponse<Unit>> {
+        userService.deleteUser(userId)
+
+        return ResponseEntity.ok(
+            ApiResponse.success(
+                message = "회원 탈퇴가 완료되었습니다",
+                data = null
+            )
+        )
+    }
 }

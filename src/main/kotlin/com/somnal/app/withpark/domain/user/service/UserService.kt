@@ -52,4 +52,11 @@ class UserService(
 
         return UserDto.fromEntity(updatedUser)
     }
+
+    fun deleteUser(userId: Long) {
+        val user = userRepository.findById(userId)
+            .orElseThrow { UsernameNotFoundException("사용자를 찾을 수 없습니다: $userId") }
+
+        userRepository.delete(user)
+    }
 }
