@@ -35,3 +35,6 @@ jwt:
   refresh-secret: ${JWT_REFRESH_SECRET}
   access-token-expiration: 3600000
   refresh-token-expiration: 604800000
+upload:
+  path: uploads
+  url: http://localhost:${DEV_SERVER_PORT:8080}/uploads

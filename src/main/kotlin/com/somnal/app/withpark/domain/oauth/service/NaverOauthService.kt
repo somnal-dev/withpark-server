@@ -1,12 +1,10 @@
 package com.somnal.app.withpark.domain.oauth.service
 
-import com.somnal.app.withpark.common.Const
 import com.somnal.app.withpark.config.JwtTokenProvider
 import com.somnal.app.withpark.domain.auth.entity.RefreshToken
 import com.somnal.app.withpark.domain.auth.repository.RefreshTokenRepository
-import com.somnal.app.withpark.domain.oauth.dto.KakaoLoginResponseDto
-import com.somnal.app.withpark.domain.oauth.dto.KakaoTokenResponseDto
-import com.somnal.app.withpark.domain.oauth.dto.KakaoUserInfoResponseDto
+import com.somnal.app.withpark.domain.oauth.dto.NaverLoginResponseDto
+import com.somnal.app.withpark.domain.oauth.dto.NaverUserInfoResponseDto
 import com.somnal.app.withpark.domain.user.dto.UserDto
 import com.somnal.app.withpark.domain.user.entity.User
 import com.somnal.app.withpark.domain.user.enumeration.SocialType
@@ -14,63 +12,47 @@ import com.somnal.app.withpark.domain.user.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
-import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.RestClient
 import java.time.LocalDateTime
 
 @Service
-class KakaoOauthService(
+class NaverOauthService(
     private val userRepository: UserRepository,
     private val jwtTokenProvider: JwtTokenProvider,
     private val refreshTokenRepository: RefreshTokenRepository,
     @Value("\${jwt.refresh-token-expiration}")
-    private val refreshTokenExpiration: Long
+    private val refreshTokenExpiration: Long,
 ) {
     private val log = LoggerFactory.getLogger(javaClass)
 
-    @Value("\${kakao.REST_API_KEY}")
-    private val restApiKey: String = ""
-
-    fun getAccessToken(code: String): String {
-        val kakaoTokenResponse = RestClient.create()
-            .post()
-            .uri(Const.KAKAO_GET_ACCESS_TOKEN_URL) { uriBuilder ->
-                uriBuilder
-                    .queryParam("grant_type", "authorization_code")
-                    .queryParam("client_id", restApiKey)
-                    .queryParam("code", code)
-                    .build()
-            }
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-            .retrieve()
-            .body(KakaoTokenResponseDto::class.java)
-
-        return kakaoTokenResponse?.accessToken ?: ""
-    }
-
     @Transactional
-    fun login(accessToken: String): KakaoLoginResponseDto {
-        val kakaoUserInfo = RestClient.create()
+    fun login(accessToken: String): NaverLoginResponseDto {
+        val naverUserInfo = RestClient.create()
             .get()
-            .uri(Const.KAKAO_GET_USER_INFO_URL)
+            .uri("https://openapi.naver.com/v1/nid/me")
             .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
             .retrieve()
-            .body(KakaoUserInfoResponseDto::class.java) ?: throw Exception("카카오 로그인이 정상적으로 진행되지 않았습니다.")
+            .body(NaverUserInfoResponseDto::class.java)
+            ?: throw Exception("네이버 로그인이 정상적으로 진행되지 않았습니다.")
+
+        if (naverUserInfo.resultCode != "00") {
+            throw Exception("네이버 로그인이 정상적으로 진행되지 않았습니다: ${naverUserInfo.message}")
+        }
 
         // 사용자 찾기
-        val username = "kakao_${kakaoUserInfo.id}"
+        val username = "naver_${naverUserInfo.response.id}"
         var user = userRepository.findUserByUsername(username)
 
-        if(user == null) {
+        if (user == null) {
             user = userRepository.save(
                 User(
                     username = username,
-                    email = kakaoUserInfo.kakaoAccount.email,
-                    nickname = kakaoUserInfo.kakaoAccount.profile.nickName,
-                    socialType = SocialType.KAKAO,
-                    socialId = kakaoUserInfo.id.toString(),
+                    email = naverUserInfo.response.email ?: "",
+                    nickname = naverUserInfo.response.nickname ?: naverUserInfo.response.name ?: "네이버 사용자",
+                    socialType = SocialType.NAVER,
+                    socialId = naverUserInfo.response.id,
                 )
             )
         }
@@ -92,7 +74,7 @@ class KakaoOauthService(
             )
         )
 
-        return KakaoLoginResponseDto(
+        return NaverLoginResponseDto(
             accessToken = newAccessToken,
             refreshToken = newRefreshToken,
             user = UserDto.fromEntity(user)

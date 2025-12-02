@@ -10,4 +10,6 @@ data class UpdateUserRequestDto(
     val onboardingDone: Boolean? = null,
     @Schema(description = "자기소개", example = "안녕하세요")
     val introduction: String? = null,
+    @Schema(description = "프로필 사진 URL", example = "https://example.com/photo.jpg")
+    val photoUrl: String? = null,
 )

@@ -24,6 +24,7 @@ data class User(
     val socialType: SocialType,
     val socialId: String? = null,
     var introduction: String? = null,
+    var photoUrl: String? = null,
 
     var onboardingDone: Boolean = false,
 ): BaseEntity()

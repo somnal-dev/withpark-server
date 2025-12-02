@@ -27,21 +27,20 @@ class JwtTokenProvider(
         Keys.hmacShaKeyFor(refreshSecretKey.toByteArray())
     }
 
-    fun generateAccessToken(userId: Long, username: String): String {
-        return generateToken(userId, username, accessTokenExpiration, accessKey)
+    fun generateAccessToken(userId: Long): String {
+        return generateToken(userId, accessTokenExpiration, accessKey)
     }
 
-    fun generateRefreshToken(userId: Long, username: String): String {
-        return generateToken(userId, username, refreshTokenExpiration, refreshKey)
+    fun generateRefreshToken(userId: Long): String {
+        return generateToken(userId, refreshTokenExpiration, refreshKey)
     }
 
-    private fun generateToken(userId: Long, username: String, expiration: Long, key: SecretKey): String {
+    private fun generateToken(userId: Long, expiration: Long, key: SecretKey): String {
         val now = Date()
         val expiryDate = Date(now.time + expiration)
 
         return Jwts.builder()
             .subject(userId.toString())
-            .claim("username", username)
             .issuedAt(now)
             .expiration(expiryDate)
             .signWith(key)
@@ -79,11 +78,6 @@ class JwtTokenProvider(
     fun getUserIdFromToken(token: String): Long {
         val claims = getClaimsFromToken(token)
         return claims.subject.toLong()
-    }
-
-    fun getUsernameFromToken(token: String): String {
-        val claims = getClaimsFromToken(token)
-        return claims["username"] as String
     }
 
     private fun getClaimsFromToken(token: String): Claims {

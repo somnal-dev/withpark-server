@@ -11,6 +11,7 @@ data class UserDto(
 
     val nickname: String,
     val introduction: String? = null,
+    val photo: PhotoDto? = null,
 
     val onboardingDone: Boolean = false,
 ) {
@@ -22,7 +23,13 @@ data class UserDto(
                 email = user.email,
                 nickname = user.nickname,
                 introduction = user.introduction,
+                photo = user.photoUrl?.let { PhotoDto(url = it) },
                 onboardingDone = user.onboardingDone
             )
     }
 }
+
+@Schema(description = "사진 정보 DTO")
+data class PhotoDto(
+    val url: String,
+)

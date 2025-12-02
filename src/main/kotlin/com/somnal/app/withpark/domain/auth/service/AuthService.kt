@@ -35,13 +35,12 @@ class AuthService(
 
         // 토큰에서 사용자 정보 추출
         val userId = jwtTokenProvider.getUserIdFromToken(refreshToken)
-        val username = jwtTokenProvider.getUsernameFromToken(refreshToken)
 
         // 새로운 액세스 토큰 생성
-        val newAccessToken = jwtTokenProvider.generateAccessToken(userId, username)
+        val newAccessToken = jwtTokenProvider.generateAccessToken(userId)
 
         // 새로운 리프레시 토큰 생성 (선택적: 리프레시 토큰도 갱신할지 결정)
-        val newRefreshToken = jwtTokenProvider.generateRefreshToken(userId, username)
+        val newRefreshToken = jwtTokenProvider.generateRefreshToken(userId)
         val expiresAt = LocalDateTime.now().plusSeconds(refreshTokenExpiration / 1000)
 
         // 기존 리프레시 토큰 삭제 및 새 토큰 저장

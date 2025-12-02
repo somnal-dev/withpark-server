@@ -4,6 +4,7 @@ import com.somnal.app.withpark.common.ApiResponse
 import com.somnal.app.withpark.common.Const
 import com.somnal.app.withpark.domain.user.dto.UpdateUserRequestDto
 import com.somnal.app.withpark.domain.user.dto.UserDto
+import com.somnal.app.withpark.domain.user.dto.UserProfileDto
 import com.somnal.app.withpark.domain.user.service.UserService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -26,12 +27,29 @@ class UserController(
     fun me(
         @AuthenticationPrincipal userDetails: UserDetails
     ): ResponseEntity<ApiResponse<UserDto>> {
-        val user = userService.findUserByUsername(userDetails.username)
+        val userId = userDetails.username.toLong()
+        val user = userService.findUserById(userId)
 
         return ResponseEntity.ok(
             ApiResponse.success(
                 message = Const.RESULT_MESSAGE_SUCCESS,
                 data = user
+            )
+        )
+    }
+
+    @Operation(summary = "사용자 프로필 조회 API")
+    @GetMapping("/{userId}")
+    fun getUserProfile(
+        @Parameter(description = "사용자 ID", example = "1")
+        @PathVariable userId: Long,
+    ): ResponseEntity<ApiResponse<UserProfileDto>> {
+        val userProfile = userService.findUserProfileById(userId)
+
+        return ResponseEntity.ok(
+            ApiResponse.success(
+                message = Const.RESULT_MESSAGE_SUCCESS,
+                data = userProfile
             )
         )
     }
