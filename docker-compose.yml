@@ -15,8 +15,6 @@ services:
   withpark-postgres:
     image: postgres:15.15
     container_name: withpark-postgres
-    ports:
-      - "${POSTGRES_PORT}:5432"
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
