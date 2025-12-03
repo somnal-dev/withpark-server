@@ -38,7 +38,7 @@ class NaverOauthService(
 
     fun getAccessToken(code: String): String {
         val naverTokenResponse = RestClient.create()
-            .post()
+            .get()
             .uri(Const.NAVER_GET_ACCESS_TOKEN_URL) { uriBuilder ->
                 uriBuilder
                     .queryParam("grant_type", "authorization_code")
