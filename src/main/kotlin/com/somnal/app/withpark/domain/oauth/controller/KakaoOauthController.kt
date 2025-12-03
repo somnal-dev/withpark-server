@@ -3,18 +3,14 @@ package com.somnal.app.withpark.domain.oauth.controller
 import com.somnal.app.withpark.common.ApiResponse
 import com.somnal.app.withpark.common.Const
 import com.somnal.app.withpark.domain.oauth.dto.KakaoLoginResponseDto
-import com.somnal.app.withpark.domain.oauth.dto.KakaoUserInfoResponseDto
 import com.somnal.app.withpark.domain.oauth.service.KakaoOauthService
-import com.somnal.app.withpark.domain.user.service.UserService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -39,8 +35,10 @@ class KakaoOauthController(
 
     @Operation(summary = "카카오 인가코드 요청 (소셜로그인 페이지 이동) API")
     @GetMapping("/authorize")
-    fun authorizeKakao(model: Model): ResponseEntity<Void> {
-        val url = "${Const.KAKAO_AUTHORIZE_URL}?response_type=code&client_id=${restApiKey}&redirect_uri=${redirectUri}"
+    fun authorizeKakao(): ResponseEntity<Void> {
+        val url = "${Const.KAKAO_AUTHORIZE_URL}?response_type=code" +
+            "&client_id=${restApiKey}" +
+            "&redirect_uri=${redirectUri}"
 
         return ResponseEntity
             .status(HttpStatus.FOUND)

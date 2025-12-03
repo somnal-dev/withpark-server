@@ -1,9 +1,11 @@
 package com.somnal.app.withpark.domain.oauth.service
 
+import com.somnal.app.withpark.common.Const
 import com.somnal.app.withpark.config.JwtTokenProvider
 import com.somnal.app.withpark.domain.auth.entity.RefreshToken
 import com.somnal.app.withpark.domain.auth.repository.RefreshTokenRepository
 import com.somnal.app.withpark.domain.oauth.dto.NaverLoginResponseDto
+import com.somnal.app.withpark.domain.oauth.dto.NaverTokenResponseDto
 import com.somnal.app.withpark.domain.oauth.dto.NaverUserInfoResponseDto
 import com.somnal.app.withpark.domain.user.dto.UserDto
 import com.somnal.app.withpark.domain.user.entity.User
@@ -12,6 +14,7 @@ import com.somnal.app.withpark.domain.user.repository.UserRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.client.RestClient
@@ -27,11 +30,35 @@ class NaverOauthService(
 ) {
     private val log = LoggerFactory.getLogger(javaClass)
 
+    @Value("\${naver.REST_API_KEY}")
+    private val restApiKey: String = ""
+
+    @Value("\${naver.CLIENT_SECRET}")
+    private val clientSecret: String = ""
+
+    fun getAccessToken(code: String): String {
+        val naverTokenResponse = RestClient.create()
+            .post()
+            .uri(Const.NAVER_GET_ACCESS_TOKEN_URL) { uriBuilder ->
+                uriBuilder
+                    .queryParam("grant_type", "authorization_code")
+                    .queryParam("client_id", restApiKey)
+                    .queryParam("client_secret", clientSecret)
+                    .queryParam("code", code)
+                    .build()
+            }
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+            .retrieve()
+            .body(NaverTokenResponseDto::class.java)
+
+        return naverTokenResponse?.accessToken ?: ""
+    }
+
     @Transactional
     fun login(accessToken: String): NaverLoginResponseDto {
         val naverUserInfo = RestClient.create()
             .get()
-            .uri("https://openapi.naver.com/v1/nid/me")
+            .uri(Const.NAVER_GET_USER_INFO_URL)
             .header(HttpHeaders.AUTHORIZATION, "Bearer $accessToken")
             .retrieve()
             .body(NaverUserInfoResponseDto::class.java)

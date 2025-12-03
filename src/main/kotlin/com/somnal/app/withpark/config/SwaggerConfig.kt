@@ -17,12 +17,6 @@ class SwaggerConfig {
                     .title("Withpark API")
                     .description("Withpark Server API docs")
                     .version("1.0.0"),
-            ).servers(
-                listOf(
-                    io.swagger.v3.oas.models.servers
-                        .Server()
-                        .url("http://localhost:8080"),
-                ),
             )
 
     @Bean
