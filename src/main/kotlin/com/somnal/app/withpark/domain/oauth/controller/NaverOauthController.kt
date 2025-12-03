@@ -25,7 +25,7 @@ class NaverOauthController(
 ) {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    @Value("\${naver.REST_API_KEY}")
+    @Value("\${naver.CLIENT_ID}")
     private val restApiKey: String? = null
 
     @Value("\${naver.REDIRECT_URI}")
