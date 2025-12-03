@@ -30,7 +30,7 @@ class NaverOauthService(
 ) {
     private val log = LoggerFactory.getLogger(javaClass)
 
-    @Value("\${naver.REST_API_KEY}")
+    @Value("\${naver.CLIENT_ID}")
     private val restApiKey: String = ""
 
     @Value("\${naver.CLIENT_SECRET}")
