@@ -23,7 +23,11 @@ data class UserDto(
                 email = user.email,
                 nickname = user.nickname,
                 introduction = user.introduction,
-                photo = user.photoUrl?.let { PhotoDto(url = it) },
+                photo = user.photoUrl?.let {
+                    // 기존 전체 URL을 상대경로로 변환
+                    val relativePath = it.replace(Regex("^https?://[^/]+"), "")
+                    PhotoDto(url = relativePath)
+                },
                 onboardingDone = user.onboardingDone
             )
     }

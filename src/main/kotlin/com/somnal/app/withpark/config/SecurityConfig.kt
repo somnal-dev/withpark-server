@@ -29,6 +29,10 @@ class SecurityConfig(
                     .requestMatchers("/uploads/**").permitAll()
                     .requestMatchers("/api/auth/refresh").permitAll()
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                    .requestMatchers("/api/posts").permitAll()
+                    .requestMatchers("/api/posts/**").permitAll()
+                    .requestMatchers("/api/comments").permitAll()
+                    .requestMatchers("/api/users/*/profile").permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
