@@ -39,7 +39,8 @@ class NaverOauthController(
     fun authorizeNaver(): ResponseEntity<Void> {
         val url = "${Const.NAVER_AUTHORIZE_URL}?response_type=code" +
                 "&client_id=${restApiKey}" +
-                "&redirect_uri=${redirectUri}"
+                "&redirect_uri=${redirectUri}" +
+                "&state=STATE"
 
         return ResponseEntity
             .status(HttpStatus.FOUND)
