@@ -31,7 +31,7 @@ class NaverOauthController(
     @Value("\${naver.REDIRECT_URI}")
     private val redirectUri: String? = null
 
-    @Value("\${naver.OAUTH_CALLBACK_URL}")
+    @Value("\${naver.OAUTH_CALLBACK_URI}")
     private val oauthCallbackUri: String? = null
 
     @Operation(summary = "네이버 인가코드 요청 (소셜로그인 페이지 이동) API")
