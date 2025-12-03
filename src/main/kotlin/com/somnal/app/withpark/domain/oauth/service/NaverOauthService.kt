@@ -51,8 +51,13 @@ class NaverOauthService(
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
             .retrieve()
             .body(NaverTokenResponseDto::class.java)
+            ?: throw Exception("네이버 액세스 토큰을 가져올 수 없습니다.")
 
-        return naverTokenResponse?.accessToken ?: ""
+        if (naverTokenResponse.error != null) {
+            throw Exception("네이버 액세스 토큰 오류: ${naverTokenResponse.errorDescription ?: naverTokenResponse.error}")
+        }
+
+        return naverTokenResponse.accessToken ?: throw Exception("네이버 액세스 토큰이 비어있습니다.")
     }
 
     @Transactional
