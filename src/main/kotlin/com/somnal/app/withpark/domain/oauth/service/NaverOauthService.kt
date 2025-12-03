@@ -45,6 +45,7 @@ class NaverOauthService(
                     .queryParam("client_id", restApiKey)
                     .queryParam("client_secret", clientSecret)
                     .queryParam("code", code)
+                    .queryParam("state", "STATE")
                     .build()
             }
             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
