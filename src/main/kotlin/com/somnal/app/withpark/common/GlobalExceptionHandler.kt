@@ -66,7 +66,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(Exception::class)
     fun handleGenericException(e: Exception): ResponseEntity<ApiResponse<Unit>> {
 
-        logger.debug(e.message ?: "서버 내부 오류가 발생했습니다")
+        logger.error("서버 내부 오류가 발생했습니다: ${e.message}", e)
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
             ApiResponse.error("서버 내부 오류가 발생했습니다"),
