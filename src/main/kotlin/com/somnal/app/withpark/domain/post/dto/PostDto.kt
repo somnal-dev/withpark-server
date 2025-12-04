@@ -21,7 +21,12 @@ data class PostDto(
     val updatedAt: LocalDateTime?,
 ) {
     companion object {
-        fun fromEntity(post: Post, images: List<ImageDto> = emptyList(), isLiked: Boolean = false): PostDto =
+        fun fromEntity(
+            post: Post,
+            images: List<ImageDto> = emptyList(),
+            isLiked: Boolean = false,
+            commentCount: Long? = null
+        ): PostDto =
             PostDto(
                 id = post.id,
                 documentId = post.id.toString(),
@@ -29,7 +34,7 @@ data class PostDto(
                 content = post.content,
                 viewCount = post.viewCount,
                 likeCount = post.likeCount,
-                commentCount = post.commentCount,
+                commentCount = commentCount ?: post.commentCount,
                 user = UserDto.fromEntity(post.user),
                 images = images,
                 isLiked = isLiked,

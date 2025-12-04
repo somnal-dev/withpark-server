@@ -1,5 +1,6 @@
 package com.somnal.app.withpark.domain.post.service
 
+import com.somnal.app.withpark.domain.comment.repository.CommentRepository
 import com.somnal.app.withpark.domain.post.dto.*
 import com.somnal.app.withpark.domain.post.entity.Post
 import com.somnal.app.withpark.domain.post.entity.PostLike
@@ -19,6 +20,7 @@ class PostService(
     private val postRepository: PostRepository,
     private val postImageRepository: PostImageRepository,
     private val postLikeRepository: PostLikeRepository,
+    private val commentRepository: CommentRepository,
     private val userRepository: UserRepository,
 ) {
     fun getPosts(
@@ -49,7 +51,8 @@ class PostService(
                 )
             }
             val isLiked = currentUserId?.let { postLikeRepository.existsByPostIdAndUserId(post.id, it) } ?: false
-            PostDto.fromEntity(post, images, isLiked)
+            val actualCommentCount = commentRepository.countByPostId(post.id)
+            PostDto.fromEntity(post, images, isLiked, actualCommentCount)
         }
     }
 
@@ -75,8 +78,9 @@ class PostService(
         }
 
         val isLiked = currentUserId?.let { postLikeRepository.existsByPostIdAndUserId(post.id, it) } ?: false
+        val actualCommentCount = commentRepository.countByPostId(post.id)
 
-        return PostDto.fromEntity(post, images, isLiked)
+        return PostDto.fromEntity(post, images, isLiked, actualCommentCount)
     }
 
     @Transactional
@@ -122,8 +126,9 @@ class PostService(
         }
 
         val isLiked = postLikeRepository.existsByPostIdAndUserId(updatedPost.id, userId)
+        val actualCommentCount = commentRepository.countByPostId(updatedPost.id)
 
-        return PostDto.fromEntity(updatedPost, images, isLiked)
+        return PostDto.fromEntity(updatedPost, images, isLiked, actualCommentCount)
     }
 
     @Transactional
