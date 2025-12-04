@@ -9,7 +9,7 @@ import jakarta.persistence.*
     name = "post_likes",
     uniqueConstraints = [UniqueConstraint(columnNames = ["post_id", "user_id"])]
 )
-data class PostLike(
+class PostLike(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,

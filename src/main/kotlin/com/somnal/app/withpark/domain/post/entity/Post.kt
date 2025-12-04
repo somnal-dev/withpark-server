@@ -7,7 +7,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "posts")
-data class Post(
+class Post(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
