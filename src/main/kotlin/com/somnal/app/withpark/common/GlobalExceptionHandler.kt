@@ -69,7 +69,7 @@ class GlobalExceptionHandler {
         logger.error("서버 내부 오류가 발생했습니다: ${e.message}", e)
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-            ApiResponse.error("서버 내부 오류가 발생했습니다"),
+            ApiResponse.error("서버 내부 오류가 발생했습니다 : ${e.message}"),
         )
     }
 }
