@@ -8,8 +8,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 class UserService(
     private val userRepository: UserRepository
 ) {
@@ -34,6 +36,7 @@ class UserService(
         return UserProfileDto.fromEntity(user)
     }
 
+    @Transactional
     fun updateUser(
         userId: Long,
         request: UpdateUserRequestDto
@@ -53,6 +56,7 @@ class UserService(
         return UserDto.fromEntity(updatedUser)
     }
 
+    @Transactional
     fun deleteUser(userId: Long) {
         val user = userRepository.findById(userId)
             .orElseThrow { UsernameNotFoundException("사용자를 찾을 수 없습니다: $userId") }
